@@ -25,6 +25,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const usersCollection = client.db("buySellHouse").collection("users");
+        const productCollection = client.db("buySellHouse").collection("products");
 
         app.post('/user', async (req, res) => {
             const user = req.body;
@@ -48,6 +49,15 @@ async function run() {
             res.send(result);
 
         })
+
+        // products collection all code
+        app.post('/products', async (req, res) => {
+            const products = req.body;
+            console.log(products);
+            const result = await productCollection.insertOne(products)
+            res.send(result);
+        })
+
 
     }
     finally {
