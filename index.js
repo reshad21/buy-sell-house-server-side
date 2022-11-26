@@ -81,6 +81,20 @@ async function run() {
 
         })
 
+        app.put('/products/:id', async (req, res) => {
+            // console.log(req.params.id);
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    role: 'available'
+                }
+            }
+            const result = await productCollection.updateOne(query, updatedDoc);
+            res.send(result);
+
+        })
+
 
     }
     finally {
