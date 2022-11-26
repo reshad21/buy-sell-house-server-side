@@ -95,6 +95,21 @@ async function run() {
 
         })
 
+        // advertizer section code
+        app.get('/products/home', async (req, res) => {
+            let query = {}
+            if (req.query.role) {
+                query = {
+                    role: req.query.role
+                }
+            }
+
+            const result = await productCollection.find(query).toArray()
+            res.send(result)
+
+
+        })
+
 
     }
     finally {
