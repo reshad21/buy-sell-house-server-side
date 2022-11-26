@@ -29,7 +29,8 @@ async function run() {
 
         app.post('/user', async (req, res) => {
             const user = req.body;
-            console.log(user);// browser a dakha jabe na karon ata post method tai console a dakha jbe data server theke send hobe kina
+            // console.log(user);
+            // browser a dakha jabe na karon ata post method tai console a dakha jbe data server theke send hobe kina
             const result = await usersCollection.insertOne(user);
             res.send(result)
 
@@ -43,14 +44,14 @@ async function run() {
 
         app.delete('/user/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
+            // console.log(id);
             const query = { _id: ObjectId(id) }
             const result = await usersCollection.deleteOne(query);
             res.send(result);
 
         })
 
-        // products collection all code
+        // ========= products collection all code =========== //
         app.post('/products', async (req, res) => {
             const products = req.body;
             console.log(products);
@@ -60,7 +61,7 @@ async function run() {
 
         // find a specific user all products
         app.get('/products', async (req, res) => {
-            console.log(req.query.email);
+            // console.log(req.query.email);
             let query = {}
             if (req.query.email) {
                 query = {
@@ -69,6 +70,15 @@ async function run() {
             }
             const result = await productCollection.find(query).toArray()
             res.send(result)
+        })
+
+        app.delete('/products/:id', async (req, res) => {
+            console.log(req.params.id);
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await productCollection.deleteOne(query);
+            res.send(result);
+
         })
 
 
