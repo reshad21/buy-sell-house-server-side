@@ -26,6 +26,7 @@ async function run() {
     try {
         const usersCollection = client.db("buySellHouse").collection("users");
         const productCollection = client.db("buySellHouse").collection("products");
+        const bookingsCollection = client.db("buySellHouse").collection("bookings");
 
         app.post('/user', async (req, res) => {
             const user = req.body;
@@ -103,11 +104,28 @@ async function run() {
                     role: req.query.role
                 }
             }
-
             const result = await productCollection.find(query).toArray()
             res.send(result)
+        })
 
 
+        // =============== booking collection all code ================ //
+        app.post('/bookings', async (req, res) => {
+            const bookings = req.body;
+            console.log(bookings);
+            const result = await bookingsCollection.insertOne(bookings)
+            res.send(result);
+        })
+
+        app.get('/bookings',async(req,res)=>{
+            let query = {}
+            if (req.query.email) {
+                query = {
+                    email: req.query.email
+                }
+            }
+            const result = await bookingsCollection.find(query).toArray();
+            res.send(result);
         })
 
 
