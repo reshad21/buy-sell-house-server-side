@@ -117,7 +117,7 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/bookings',async(req,res)=>{
+        app.get('/bookings', async (req, res) => {
             let query = {}
             if (req.query.email) {
                 query = {
@@ -125,6 +125,19 @@ async function run() {
                 }
             }
             const result = await bookingsCollection.find(query).toArray();
+            res.send(result);
+        })
+
+        app.put('/bookings/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id: ObjectId(id) };
+            const updatedDoc={
+                $set: {
+                    role: 'paid'
+                }
+            }
+            const result = await bookingsCollection.updateOne(query,updatedDoc);
             res.send(result);
         })
 
