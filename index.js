@@ -27,7 +27,25 @@ async function run() {
         const usersCollection = client.db("buySellHouse").collection("users");
         const productCollection = client.db("buySellHouse").collection("products");
         const bookingsCollection = client.db("buySellHouse").collection("bookings");
+        const categoryCollection = client.db("buySellHouse").collection("categories");
 
+        app.get('/category', async (req, res) => {
+            const query = {}
+            const result = await categoryCollection.find(query).toArray()
+            res.send(result);
+
+        })
+
+        app.get('/category/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { category: id }
+            const result = await productCollection.find(query).toArray();
+            res.send(result);
+
+        })
+
+
+        // =============== user collection code =============== //
         app.post('/user', async (req, res) => {
             const user = req.body;
             // console.log(user);
@@ -130,14 +148,14 @@ async function run() {
 
         app.put('/bookings/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
+            // console.log(id);
             const query = { _id: ObjectId(id) };
-            const updatedDoc={
+            const updatedDoc = {
                 $set: {
                     role: 'paid'
                 }
             }
-            const result = await bookingsCollection.updateOne(query,updatedDoc);
+            const result = await bookingsCollection.updateOne(query, updatedDoc);
             res.send(result);
         })
 
@@ -148,10 +166,6 @@ async function run() {
     }
 }
 run().catch(console.log)
-
-
-
-
 
 app.listen(port, () => {
     console.log(`Listening to the port ${port}`);
