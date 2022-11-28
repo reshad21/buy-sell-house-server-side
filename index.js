@@ -14,11 +14,9 @@ app.get('/', (req, res) => {
     res.send('server is running');
 })
 
-// db name:buySellHouse
-// db password:e2KBOaVcKe5aEyzJ
 
 
-const uri = "mongodb+srv://buySellHouse:e2KBOaVcKe5aEyzJ@cluster0.gplljg9.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.gplljg9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
