@@ -116,7 +116,7 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const updatedDoc = {
                 $set: {
-                    role: 'available'
+                    role: 'available',
                 }
             }
             const result = await productCollection.updateOne(query, updatedDoc);
@@ -201,6 +201,24 @@ async function run() {
                 }
             }
             const result = await usersCollection.updateOne(query,updatedDoc)
+        })
+
+        app.put("/user/:email", async (req, res) => {
+            try {
+                const email = req.params.email;
+                const user = req.body;
+                const filter = { email: email };
+                // const options = { upsert: true };
+                const updateDoc = {
+                    $set: user
+                }
+                const result = await usersCollection.updateOne(filter, updateDoc);
+                res.send(result)
+               
+            }
+            catch (err) {
+                console.log(err);
+            }
         })
 
 
