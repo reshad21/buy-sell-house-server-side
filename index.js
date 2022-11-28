@@ -29,6 +29,7 @@ async function run() {
         const bookingsCollection = client.db("buySellHouse").collection("bookings");
         const categoryCollection = client.db("buySellHouse").collection("categories");
 
+        // =============== categoryCollection all api ============== //
         app.get('/category', async (req, res) => {
             const query = {}
             const result = await categoryCollection.find(query).toArray()
@@ -68,6 +69,9 @@ async function run() {
             res.send(result)
 
         })
+
+        
+        
 
         app.delete('/user/:id', async (req, res) => {
             const id = req.params.id;
@@ -165,6 +169,40 @@ async function run() {
             }
             const result = await bookingsCollection.updateOne(query, updatedDoc);
             res.send(result);
+        })
+
+
+        // ================ admin all seller and buyer find out =============== //
+        app.get('/admin/allseller',async(req,res)=>{
+            // res.send('allseller')
+            let query = {}
+            if (req.query.role) {
+                query = {role:req.query.role }
+            }
+            const result = await usersCollection.find(query).toArray()
+            res.send(result);
+        })
+
+        app.get('/admin/allbuyer',async(req,res)=>{
+            // res.send('allseller')
+            let query = {}
+            if (req.query.role) {
+                query = {role:req.query.role }
+            }
+            const result = await usersCollection.find(query).toArray()
+            res.send(result);
+        })
+
+        // seller verification route create
+        app.put('/admin/allseller/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set : {
+                    type: 'verified'
+                }
+            }
+            const result = await usersCollection.updateOne(query,updatedDoc)
         })
 
 
